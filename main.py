@@ -34,8 +34,8 @@ class MyFirstGUI:
         self.close_button.pack(side=BOTTOM)
 
     def begin_logging(self):
-        filename = self.fileref.get
-        file = open((filename + ".csv"), 'w')
+        filename = self.fileref.get()
+        file = open((str(filename) + ".csv"), 'w')
 	file.write("Angular Position \n x:, y:, z:\n")
 	portno = self.entry.get()
 	ser = serial.Serial(('COM' + portno), 9600, timeout=1)  # open serial port
