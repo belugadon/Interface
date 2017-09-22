@@ -1,5 +1,6 @@
 import serial
 from Tkinter import *
+import thread
 
 class MyFirstGUI:
     def __init__(self, master):
@@ -26,25 +27,28 @@ class MyFirstGUI:
         self.entry = Entry(master)
         self.entry.place(x=0, y=76, width=50, height=20)
 
-        self.greet_button = Button(master, text="Log Data", command=self.begin_logging)
-        self.greet_button.place(x=0, y=96, width=50, height=20)
+        self.greet_button = Button(master, text="Log Data", command=self.start_background_task)
+        self.greet_button.place(x=0, y=96, width=60, height=20)
 
         self.close_button = Button(master, text="Close", command=master.quit)
         self.close_button.grid(row=10, column=0, columnspan=1, sticky=S)
-        self.close_button.pack(side=BOTTOM)
+        self.close_button.place(x=0, y=116, width=60, height=20)
 
-    def begin_logging(self):
-        filename = self.fileref.get()
-        file = open((str(filename) + ".csv"), 'w')
-	file.write("Angular Position \n x:, y:, z:\n")
-	portno = self.entry.get()
-	ser = serial.Serial(('COM' + portno), 9600, timeout=1)  # open serial port
-	print(ser.name)         # check which port was really used
-	while 1:
-		x = ser.read() 
-		file.write(x)
-		print(x)
-        ser.close()             # close port
+    def start_background_task(self):
+        thread.start_new_thread(begin_logging, ())
+
+def begin_logging():
+    filename = my_gui.fileref.get()
+    file = open((str(filename) + ".csv"), 'w')
+    file.write("Angular Position \n x:, y:, z:\n")
+    portno = my_gui.entry.get()
+    ser = serial.Serial(('COM' + portno), 9600, timeout=1)  # open serial port
+    print(ser.name)         # check which port was really used
+    while 1:
+	    x = ser.read() 
+	    file.write(x)
+	    print(x)
+    ser.close()             # close port
 
 root = Tk()
 root.geometry("250x200+30+30") 
