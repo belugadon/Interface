@@ -1,21 +1,27 @@
 import serial
-from Tkinter import Tk, Label, Button
+from Tkinter import *
 
 class MyFirstGUI:
     def __init__(self, master):
         self.master = master
-        master.title("A simple GUI")
+        master.title("Interface")
 
-        self.label = Label(master, text="This is our first GUI!")
+        self.total_label_text = IntVar()
+        self.total_label_text.set(0)
+        self.total_label = Label(master, textvariable=self.total_label_text)
+
+        self.label = Label(master, text="Total:")
+
+        self.label = Label(master, text="Quadcopter Interface")
         self.label.pack()
 
-        self.greet_button = Button(master, text="Log Data", command=self.greet)
-        self.greet_button.pack()
+        self.greet_button = Button(master, text="Log Data", command=self.begin_logging)
+        self.greet_button.pack(side=LEFT)
 
         self.close_button = Button(master, text="Close", command=master.quit)
-        self.close_button.pack()
+        self.close_button.pack(side=RIGHT)
 
-    def greet(self):
+    def begin_logging(self):
         file = open("flightdata.csv", 'w')
 	file.write("Angular Position \n x:, y:, z:\n")
 	ser = serial.Serial('COM6', 9600, timeout=1)  # open serial port
