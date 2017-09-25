@@ -60,7 +60,7 @@ class MyFirstGUI:
 
     def close_application(self):
         self.stop_logging()
-        self.quit()
+        my_gui.quit()
 
     def begin_logging(self, canvas):
         global logging
@@ -71,7 +71,8 @@ class MyFirstGUI:
         lastYaxis = 0
         Zaxis = ''
         lastZaxis = 0
-        x=''
+        value = 0
+        #x=''
         i=0
         filename = self.fileref.get()
         file = open((str(filename) + ".csv"), 'a+')
@@ -88,10 +89,45 @@ class MyFirstGUI:
                 #i=0
                 #canvas.delete("line")
         while logging==True:
-            while x != ',':
-                value = Value + x
-                x = ser.read()
-                print(repr(x))
+            x = ser.read()
+            if x=='x':
+                while x != '-':
+                    x = ser.read()
+                    if(x != '-'):
+                        value <<= 8
+                        value = value + ord(x)
+                    #print(ord(x))
+                print('x')    
+                print(value)
+                canvas.delete("linex")
+                canvas.create_arc(20, 20, 90, 90, start=value, fill="red", tag="linex")
+                value = 0
+            elif x=='y':
+                while x != '-':
+                    x = ser.read()
+                    if(x != '-'):
+                        value <<= 8
+                        value = value + ord(x)
+                    #print(ord(x))
+                print('y')
+                print(value)
+                canvas.delete("liney")
+                canvas.create_arc(20, 110, 90, 180, start=value, fill="red", tag="liney")
+                value = 0
+            elif x=='z':
+                while x != '-':
+                    x = ser.read()
+                    if(x != '-'):
+                        value <<= 8
+                        value = value + ord(x)
+                    #print(ord(x))
+                print('z')    
+                print(value)
+                canvas.delete("linez")
+                canvas.create_arc(20, 200, 90, 270, start=value, fill="red", tag="linez")
+                value = 0
+
+    def dummycode():
         while logging==True:
                 time.sleep(0.01)
                 while x != ',':
