@@ -26,24 +26,30 @@ class MyFirstGUI:
         self.entry = Entry(master)
         self.entry.place(x=81, y=56, width=50, height=20)
 
-        self.w = Canvas(master, width=300, height=300)
+        self.Xlabel = Label(master, text="X Axis:")
+        self.Xlabel.place(x=40, y=145, width=35, height=20)
+
+        self.w = Canvas(master, width=350, height=350)
         self.w.create_rectangle(20, 20, 90, 90, fill="blue")
         self.w.create_oval(20, 20, 90, 90, fill="green")
-        self.w.create_rectangle(20, 110, 90, 180, fill="blue")
-        self.w.create_oval(20, 110, 90, 180, fill="green")
-        self.w.create_rectangle(20, 200, 90, 270, fill="blue")
-        self.w.create_oval(20, 200, 90, 270, fill="green")
-        self.w.create_line(10, 10, 100, 10, fill="red")
-        self.w.create_line(100, 10, 100, 280, fill="red")
-        self.w.create_line(100, 280, 10, 280, fill="red")
-        self.w.create_line(10, 280, 10, 10, fill="red")
+        self.w.create_rectangle(110, 20, 180, 90, fill="blue")
+        self.w.create_oval(110, 20, 180, 90, fill="green")
+        self.w.create_rectangle(200, 20, 270, 90, fill="blue")
+        self.w.create_oval(200, 20, 270, 90, fill="green")   
+        self.w.create_line(10, 10, 280, 10, fill="red")
+        self.w.create_line(280, 10, 280, 100, fill="red")
+        self.w.create_line(280, 10, 280, 100, fill="red")
+        self.w.create_line(280, 100, 10, 100, fill="red")
+        self.w.create_line(10, 100, 10, 10, fill="red")
         self.w.create_line(20, 55, 90, 55, fill="black")
-        self.w.create_line(20, 145, 90, 145, fill="black")
-        self.w.create_line(20, 235, 90, 235, fill="black")
+        self.w.create_line(110, 55, 180, 55, fill="black")
+        self.w.create_line(200, 55, 270, 55, fill="black")
+        self.w.create_line(235, 20, 235, 90, fill="black")
         self.w.create_line(55, 20, 55, 90, fill="black")
-        self.w.create_line(55, 110, 55, 180, fill="black")
-        self.w.create_line(55, 200, 55, 270, fill="black")
-        self.w.place(x=175, y=0, width=300, height=300)
+        self.w.create_line(145, 20, 145, 90, fill="black")
+
+
+        self.w.place(x=0, y=160, width=350, height=350)
 
         self.start_button = Button(master, text="Log Data", command=lambda: self.start_background_task1(self.w))
         self.start_button.place(x=0, y=96, width=80, height=20)
@@ -56,7 +62,7 @@ class MyFirstGUI:
         
         self.close_button = Button(master, text="Close", command=self.close_application)
         self.close_button.grid(row=10, column=0, columnspan=1, sticky=S)
-        self.close_button.place(x=0, y=136, width=60, height=20)
+        self.close_button.place(x=81, y=116, width=80, height=20)
 
     def create_bar(self, argv):
         self.bar = Canvas(self, width=300, height=300)
@@ -216,7 +222,7 @@ class MyFirstGUI:
         logging=False
 
 root = Tk()
-root.geometry("290x290+30+30") 
+root.geometry("300x290+30+30") 
 my_gui = MyFirstGUI(root)
 root.mainloop()
 
