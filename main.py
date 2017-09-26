@@ -91,8 +91,9 @@ class MyFirstGUI:
         value = 0
         i=0
         filename = self.fileref.get()
-        file = open((str(filename) + ".csv"), 'a+')
-        file.write("Angular Position \n x:, y:, z:\n")
+        if(filename != ''):
+            file = open((str(filename) + ".csv"), 'a+')
+            file.write("Angular Position \n x:, y:, z:\n")
         portno = self.entry.get()
         ser = serial.Serial(('COM' + portno), 19200, timeout=1)  # open serial port
         print(ser.name)         # check which port was really used
@@ -106,10 +107,11 @@ class MyFirstGUI:
                         value = value + ord(x)
                 print('x')    
                 print(value-180)
-                file.write(str(value-180))
-                file.write(',')
+                if(filename != ''):
+                    file.write(str(value-180))
+                    file.write(',')
                 canvas.delete("linex")
-                canvas.create_arc(20, 20, 90, 90, start=value, extent=20, fill="red", tag="linex")
+                canvas.create_arc(20, 20, 90, 90, start=value-100, extent=20, fill="red", tag="linex")
                 value = 0
             elif x=='y':
                 while x != '-':
@@ -119,10 +121,11 @@ class MyFirstGUI:
                         value = value + ord(x)
                 print('y')
                 print(value-180)
-                file.write(str(value-180))
-                file.write(',')
+                if(filename != ''):
+                    file.write(str(value-180))
+                    file.write(',')
                 canvas.delete("liney")
-                canvas.create_arc(110, 20, 180, 90, start=value, extent=20, fill="red", tag="liney")
+                canvas.create_arc(110, 20, 180, 90, start=value-100, extent=20, fill="red", tag="liney")
                 value = 0
             elif x=='z':
                 while x != '-':
@@ -132,14 +135,16 @@ class MyFirstGUI:
                         value = value + ord(x)
                 print('z')    
                 print(value-180)
-                file.write(str(value-180))
-                file.write(',')
-                file.write('\n')
+                if(filename != ''):
+                    file.write(str(value-180))
+                    file.write(',')
+                    file.write('\n')
                 canvas.delete("linez")
-                canvas.create_arc(200, 20, 270, 90, start=value, extent=20, fill="red", tag="linez")
+                canvas.create_arc(200, 20, 270, 90, start=value-100, extent=20, fill="red", tag="linez")
                 value = 0
-        ser.close()             # close port
-        file.closed
+        ser.close() # close port
+        if(filename != ''):
+            file.closed
 
     def playback(self, canvas):
         global logging
@@ -152,7 +157,7 @@ class MyFirstGUI:
         file.readline()
         x = '0'
         while ((logging==True) & (x != '')):
-            time.sleep(0.1)
+            time.sleep(0.08)
             while x != ',':
                 x = file.read(1)
                 if x == '':
@@ -163,11 +168,11 @@ class MyFirstGUI:
                     sign=True
                 if ((x != ',') & (x != '-')):
                     value = value*10
-                    value = value + (int(x)-48)
+                    value = value + (int(x))
             if (sign==True):
                 value = 0 - value
             canvas.delete("linex")
-            canvas.create_arc(20, 20, 90, 90, start=value, extent=20, fill="red", tag="linex")
+            canvas.create_arc(20, 20, 90, 90, start=value+80, extent=20, fill="red", tag="linex")
             value = 0
             sign=False
             if(x==','):
@@ -182,11 +187,11 @@ class MyFirstGUI:
                     sign=True
                 if ((x != ',') & (x != '-')):
                     value = value*10
-                    value = value + (int(x)-48)
+                    value = value + (int(x))
             if (sign==True):
                 value = 0 - value
             canvas.delete("liney")
-            canvas.create_arc(110, 20, 180, 90, start=value, extent=20, fill="red", tag="liney")
+            canvas.create_arc(110, 20, 180, 90, start=value+80, extent=20, fill="red", tag="liney")
             value = 0
             sign=False
             if(x==','):
@@ -201,11 +206,11 @@ class MyFirstGUI:
                     sign=True
                 if ((x != ',') & (x != '-')):
                     value = value*10
-                    value = value + (int(x)-48)
+                    value = value + (int(x))
             if (sign==True):
                 value = 0 - value
             canvas.delete("linez")
-            canvas.create_arc(200, 20, 270, 90, start=value, extent=20, fill="red", tag="linez")
+            canvas.create_arc(200, 20, 270, 90, start=value+80, extent=20, fill="red", tag="linez")
             value = 0
             sign=False
             if(x==','):
