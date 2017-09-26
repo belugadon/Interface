@@ -28,6 +28,10 @@ class MyFirstGUI:
 
         self.Xlabel = Label(master, text="X Axis:")
         self.Xlabel.place(x=40, y=145, width=35, height=20)
+        self.Xlabel = Label(master, text="Y Axis:")
+        self.Xlabel.place(x=125, y=145, width=35, height=20)
+        self.Xlabel = Label(master, text="Z Axis:")
+        self.Xlabel.place(x=220, y=145, width=35, height=20)
 
         self.w = Canvas(master, width=350, height=350)
         self.w.create_rectangle(20, 20, 90, 90, fill="blue")
@@ -84,14 +88,7 @@ class MyFirstGUI:
     def begin_logging(self, canvas):
         global logging
         logging=True
-        Xaxis = ''
-        lastXaxis = 0
-        Yaxis = ''
-        lastYaxis = 0
-        Zaxis = ''
-        lastZaxis = 0
         value = 0
-        #x=''
         i=0
         filename = self.fileref.get()
         file = open((str(filename) + ".csv"), 'a+')
@@ -125,7 +122,7 @@ class MyFirstGUI:
                 file.write(str(value-180))
                 file.write(',')
                 canvas.delete("liney")
-                canvas.create_arc(20, 110, 90, 180, start=value, extent=20, fill="red", tag="liney")
+                canvas.create_arc(110, 20, 180, 90, start=value, extent=20, fill="red", tag="liney")
                 value = 0
             elif x=='z':
                 while x != '-':
@@ -139,7 +136,7 @@ class MyFirstGUI:
                 file.write(',')
                 file.write('\n')
                 canvas.delete("linez")
-                canvas.create_arc(20, 200, 90, 270, start=value, extent=20, fill="red", tag="linez")
+                canvas.create_arc(200, 20, 270, 90, start=value, extent=20, fill="red", tag="linez")
                 value = 0
         ser.close()             # close port
         file.closed
@@ -189,7 +186,7 @@ class MyFirstGUI:
             if (sign==True):
                 value = 0 - value
             canvas.delete("liney")
-            canvas.create_arc(20, 110, 90, 180, start=value, extent=20, fill="red", tag="liney")
+            canvas.create_arc(110, 20, 180, 90, start=value, extent=20, fill="red", tag="liney")
             value = 0
             sign=False
             if(x==','):
@@ -208,7 +205,7 @@ class MyFirstGUI:
             if (sign==True):
                 value = 0 - value
             canvas.delete("linez")
-            canvas.create_arc(20, 200, 90, 270, start=value, extent=20, fill="red", tag="linez")
+            canvas.create_arc(200, 20, 270, 90, start=value, extent=20, fill="red", tag="linez")
             value = 0
             sign=False
             if(x==','):
