@@ -37,6 +37,12 @@ class MyFirstGUI:
         self.w.create_line(100, 10, 100, 280, fill="red")
         self.w.create_line(100, 280, 10, 280, fill="red")
         self.w.create_line(10, 280, 10, 10, fill="red")
+        self.w.create_line(20, 55, 90, 55, fill="black")
+        self.w.create_line(20, 145, 90, 145, fill="black")
+        self.w.create_line(20, 235, 90, 235, fill="black")
+        self.w.create_line(55, 20, 55, 90, fill="black")
+        self.w.create_line(55, 110, 55, 180, fill="black")
+        self.w.create_line(55, 200, 55, 270, fill="black")
         self.w.place(x=175, y=0, width=300, height=300)
 
         self.start_button = Button(master, text="Log Data", command=lambda: self.start_background_task1(self.w))
