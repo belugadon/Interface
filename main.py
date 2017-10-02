@@ -55,7 +55,7 @@ class MyFirstGUI:
 
         self.w.place(x=0, y=160, width=350, height=350)
 
-        self.start_button = Button(master, text="Log Data", command=lambda: self.start_background_task1(self.w))
+        self.start_button = Button(master, text="Stream", command=lambda: self.start_background_task1(self.w))
         self.start_button.place(x=0, y=96, width=80, height=20)
         
         self.stop_button = Button(master, text="Stop", command=self.stop_logging)
