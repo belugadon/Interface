@@ -95,7 +95,7 @@ class MyFirstGUI:
             file = open((str(filename) + ".csv"), 'a+')
             file.write("Angular Position \n x:, y:, z:\n")
         portno = self.entry.get()
-        ser = serial.Serial(('COM' + portno), 19200, timeout=1)  # open serial port
+        ser = serial.Serial(('COM' + portno), 19200, timeout=200)  # open serial port
         print(ser.name)         # check which port was really used
         while logging==True:
             x = ser.read()
@@ -105,8 +105,6 @@ class MyFirstGUI:
                     if(x != '-'):
                         value <<= 8
                         value = value + ord(x)
-                print('x')    
-                print(value-180)
                 if(filename != ''):
                     file.write(str(value-180))
                     file.write(',')
@@ -119,8 +117,6 @@ class MyFirstGUI:
                     if(x != '-'):
                         value <<= 8
                         value = value + ord(x)
-                print('y')
-                print(value-180)
                 if(filename != ''):
                     file.write(str(value-180))
                     file.write(',')
@@ -133,8 +129,6 @@ class MyFirstGUI:
                     if(x != '-'):
                         value <<= 8
                         value = value + ord(x)
-                print('z')    
-                print(value-180)
                 if(filename != ''):
                     file.write(str(value-180))
                     file.write(',')
@@ -171,8 +165,6 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("linex")
             canvas.create_arc(20, 20, 90, 90, start=value+80, extent=20, fill="red", tag="linex")
-            print('1:')
-            print(value)
             value = 0
             sign=False
             if(x==','):
@@ -190,8 +182,6 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("liney")
             canvas.create_arc(110, 20, 180, 90, start=value+80, extent=20, fill="red", tag="liney")
-            print('2:')
-            print(value)
             value = 0
             sign=False
             if(x==','):
@@ -211,8 +201,6 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("linez")
             canvas.create_arc(200, 20, 270, 90, start=value+80, extent=20, fill="red", tag="linez")
-            print('3:')
-            print(value)
             value = 0
             sign=False
             if(x==','):
