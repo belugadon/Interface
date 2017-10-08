@@ -26,6 +26,8 @@ class MyFirstGUI:
         self.entry = Entry(master)
         self.entry.place(x=81, y=56, width=50, height=20)
 
+        self.alert = Label(master, text="Port Closed", foreground="red")
+        
         self.Xlabel = Label(master, text="X Axis:")
         self.Xlabel.place(x=40, y=145, width=35, height=20)
         self.Xlabel = Label(master, text="Y Axis:")
@@ -82,7 +84,8 @@ class MyFirstGUI:
         t.start()
 
     def close_application(self):
-        self.stop_logging()
+        global logging
+        logging=False
         root.quit()
 
     def begin_logging(self, canvas):
@@ -95,7 +98,13 @@ class MyFirstGUI:
             file = open((str(filename) + ".csv"), 'a+')
             file.write("Angular Position \n x:, y:, z:\n")
         portno = self.entry.get()
-        ser = serial.Serial(('COM' + portno), 19200, timeout=200)  # open serial port
+        try:
+            self.alert.place(width=0, height=0)
+            ser = serial.Serial(('COM' + portno), 19200, timeout=100)  # open serial port
+        except serial.SerialException:
+            self.alert.place(x=61, y=76, width=100, height=20)
+            logging=False
+            return
         print(ser.name)         # check which port was really used
         while logging==True:
             x = ser.read()
