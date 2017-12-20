@@ -26,7 +26,8 @@ class MyFirstGUI:
         self.entry = Entry(master)
         self.entry.place(x=81, y=56, width=50, height=20)
 
-        self.alert = Label(master, text="Port Closed", foreground="red")
+        self.alert1 = Label(master, text="Port Closed", foreground="red")
+        self.alert2 = Label(master, text="File not found", foreground="red")        
         
         self.Xlabel = Label(master, text="X Axis:")
         self.Xlabel.place(x=40, y=145, width=35, height=20)
@@ -90,7 +91,6 @@ class MyFirstGUI:
 
     def begin_logging(self, canvas):
         global logging
-        logging=True
         value = 0
         i=0
         filename = self.fileref.get()
@@ -99,10 +99,11 @@ class MyFirstGUI:
             file.write("Angular Position \n x:, y:, z:\n")
         portno = self.entry.get()
         try:
-            self.alert.place(width=0, height=0)
-            ser = serial.Serial(('COM' + portno), 19200, timeout=100)  # open serial port
+            self.alert1.place(width=0, height=0)
+            ser = serial.Serial(('COM' + portno), 9600, timeout=100)  # open serial port
+            logging=True
         except serial.SerialException:
-            self.alert.place(x=61, y=76, width=100, height=20)
+            self.alert1.place(x=61, y=76, width=100, height=20)
             logging=False
             return
         print(ser.name)         # check which port was really used
@@ -155,9 +156,17 @@ class MyFirstGUI:
         sign=False
         value = 0
         filename = self.fileref.get()
-        file = open((str(filename) + ".csv"), 'r')
-        file.readline()
-        file.readline()
+        if(filename != ''):
+            try:
+                file = open((str(filename) + ".csv"), 'r')
+                self.alert2.place(width=0, height=0)
+                file.readline()
+                file.readline()
+            except IOError:
+                self.alert2.place(x=61, y=36, width=100, height=20)
+                logging=False
+        elif(filename == ''):
+            logging=False
         x = '0'
         while ((logging==True) & (x != '')):
             time.sleep(0.08)
@@ -214,7 +223,8 @@ class MyFirstGUI:
             sign=False
             if(x==','):
                 x = '0'
-        file.closed
+        if(filename != '') & (logging==True):
+            file.closed
         print("finished playback")
 
         
