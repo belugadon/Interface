@@ -45,9 +45,9 @@ class MyFirstGUI:
         self.w.create_oval(200, 20, 270, 90, fill="green")   
         self.w.create_line(10, 10, 280, 10, fill="red")
         self.w.create_line(280, 10, 280, 100, fill="red")
-        self.w.create_line(280, 10, 280, 100, fill="red")
-        self.w.create_line(280, 100, 10, 100, fill="red")
-        self.w.create_line(10, 100, 10, 10, fill="red")
+        self.w.create_line(280, 10, 280, 116, fill="red")
+        self.w.create_line(280, 116, 10, 116, fill="red")
+        self.w.create_line(10, 116, 10, 10, fill="red")
         self.w.create_line(20, 55, 90, 55, fill="black")
         self.w.create_line(110, 55, 180, 55, fill="black")
         self.w.create_line(200, 55, 270, 55, fill="black")
@@ -55,9 +55,15 @@ class MyFirstGUI:
         self.w.create_line(55, 20, 55, 90, fill="black")
         self.w.create_line(145, 20, 145, 90, fill="black")
 
-
         self.w.place(x=0, y=160, width=350, height=350)
 
+        self.XNumbDisplay = Label(master)
+        self.XNumbDisplay.place(x=45, y=255)
+        self.YNumbDisplay = Label(master)
+        self.YNumbDisplay.place(x=135, y=255)
+        self.ZNumbDisplay = Label(master)
+        self.ZNumbDisplay.place(x=225, y=255)
+        
         self.start_button = Button(master, text="Stream", command=lambda: self.start_background_task1(self.w))
         self.start_button.place(x=0, y=96, width=80, height=20)
         
@@ -120,6 +126,7 @@ class MyFirstGUI:
                     file.write(',')
                 canvas.delete("linex")
                 canvas.create_arc(20, 20, 90, 90, start=value-100, extent=20, fill="red", tag="linex")
+                self.XNumbDisplay.config(text = (value-180))
                 value = 0
             elif x=='y':
                 while x != '-':
@@ -132,6 +139,7 @@ class MyFirstGUI:
                     file.write(',')
                 canvas.delete("liney")
                 canvas.create_arc(110, 20, 180, 90, start=value-100, extent=20, fill="red", tag="liney")
+                self.YNumbDisplay.config(text = (value-180))
                 value = 0
             elif x=='z':
                 while x != '-':
@@ -145,6 +153,7 @@ class MyFirstGUI:
                     file.write('\n')
                 canvas.delete("linez")
                 canvas.create_arc(200, 20, 270, 90, start=value-100, extent=20, fill="red", tag="linez")
+                self.ZNumbDisplay.config(text = (value-180))
                 value = 0
         ser.close() # close port
         if(filename != ''):
@@ -183,6 +192,7 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("linex")
             canvas.create_arc(20, 20, 90, 90, start=value+80, extent=20, fill="red", tag="linex")
+            self.XNumbDisplay.config(text = (value-180))
             value = 0
             sign=False
             if(x==','):
@@ -200,6 +210,7 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("liney")
             canvas.create_arc(110, 20, 180, 90, start=value+80, extent=20, fill="red", tag="liney")
+            self.YNumbDisplay.config(text = (value-180))
             value = 0
             sign=False
             if(x==','):
@@ -219,6 +230,7 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("linez")
             canvas.create_arc(200, 20, 270, 90, start=value+80, extent=20, fill="red", tag="linez")
+            self.ZNumbDisplay.config(text = (value-180))
             value = 0
             sign=False
             if(x==','):
