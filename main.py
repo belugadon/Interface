@@ -47,7 +47,7 @@ class MyFirstGUI:
         self.w.create_line(280, 10, 280, 100, fill="red")
         self.w.create_line(280, 10, 280, 116, fill="red")
         self.w.create_line(280, 116, 10, 116, fill="red")
-        self.w.create_line(10, 116, 10, 10, fill="red")
+        self.w.create_line(10, 11, 10, 10, fill="red")
         self.w.create_line(20, 55, 90, 55, fill="black")
         self.w.create_line(110, 55, 180, 55, fill="black")
         self.w.create_line(200, 55, 270, 55, fill="black")
@@ -192,7 +192,7 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("linex")
             canvas.create_arc(20, 20, 90, 90, start=value+80, extent=20, fill="red", tag="linex")
-            self.XNumbDisplay.config(text = (value-180))
+            self.XNumbDisplay.config(text = (value))
             value = 0
             sign=False
             if(x==','):
@@ -210,7 +210,7 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("liney")
             canvas.create_arc(110, 20, 180, 90, start=value+80, extent=20, fill="red", tag="liney")
-            self.YNumbDisplay.config(text = (value-180))
+            self.YNumbDisplay.config(text = (value))
             value = 0
             sign=False
             if(x==','):
@@ -230,7 +230,7 @@ class MyFirstGUI:
                 value = 0 - value
             canvas.delete("linez")
             canvas.create_arc(200, 20, 270, 90, start=value+80, extent=20, fill="red", tag="linez")
-            self.ZNumbDisplay.config(text = (value-180))
+            self.ZNumbDisplay.config(text = (value))
             value = 0
             sign=False
             if(x==','):
