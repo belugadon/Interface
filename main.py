@@ -2,6 +2,7 @@ import serial
 from Tkinter import *
 import threading
 import time
+import math
 
 
 class MyFirstGUI:
@@ -43,17 +44,17 @@ class MyFirstGUI:
         self.w.create_oval(110, 20, 180, 90, fill="green")
         self.w.create_rectangle(200, 20, 270, 90, fill="blue")
         self.w.create_oval(200, 20, 270, 90, fill="green")   
-        self.w.create_line(10, 10, 280, 10, fill="red")
-        self.w.create_line(280, 10, 280, 100, fill="red")
-        self.w.create_line(280, 10, 280, 116, fill="red")
-        self.w.create_line(280, 116, 10, 116, fill="red")
-        self.w.create_line(10, 11, 10, 10, fill="red")
         self.w.create_line(20, 55, 90, 55, fill="black")
         self.w.create_line(110, 55, 180, 55, fill="black")
         self.w.create_line(200, 55, 270, 55, fill="black")
         self.w.create_line(235, 20, 235, 90, fill="black")
         self.w.create_line(55, 20, 55, 90, fill="black")
         self.w.create_line(145, 20, 145, 90, fill="black")
+        self.w.create_line(10, 10, 280, 10, fill="red")
+        self.w.create_line(280, 10, 280, 100, fill="red")
+        self.w.create_line(280, 10, 280, 116, fill="red")
+        self.w.create_line(280, 116, 10, 116, fill="red")
+        self.w.create_line(10, 11, 10, 10, fill="red")
 
         self.w.place(x=0, y=160, width=350, height=350)
 
@@ -124,8 +125,12 @@ class MyFirstGUI:
                 if(filename != ''):
                     file.write(str(value-180))
                     file.write(',')
-                canvas.delete("linex")
-                canvas.create_arc(20, 20, 90, 90, start=value-100, extent=20, fill="red", tag="linex")
+                #canvas.delete("linex")
+                #canvas.create_arc(20, 20, 90, 90, start=value-100, extent=20, fill="red", tag="linex")
+                canvas.delete("linex_1")
+                canvas.delete("linex_2")  
+                canvas.create_arc(22, 22, 88, 88, start=0-180, extent=(0-value)+180, fill="red", tag="linex_1")
+                canvas.create_arc(22, 22, 88, 88, start=0, extent=(0-value)+180, fill="red", tag="linex_2")
                 self.XNumbDisplay.config(text = (value-180))
                 value = 0
             elif x=='y':
@@ -137,8 +142,12 @@ class MyFirstGUI:
                 if(filename != ''):
                     file.write(str(value-180))
                     file.write(',')
-                canvas.delete("liney")
-                canvas.create_arc(110, 20, 180, 90, start=value-100, extent=20, fill="red", tag="liney")
+                #canvas.delete("liney")
+                #canvas.create_arc(110, 20, 180, 90, start=value-100, extent=20, fill="red", tag="liney")
+                canvas.delete("liney_1")
+                canvas.delete("liney_2")  
+                canvas.create_arc(112, 22, 178, 88, start=0-180, extent=(0-value)+180, fill="red", tag="liney_1")
+                canvas.create_arc(112, 22, 178, 88, start=0, extent=(0-value)+180, fill="red", tag="liney_2")
                 self.YNumbDisplay.config(text = (value-180))
                 value = 0
             elif x=='z':
@@ -151,8 +160,12 @@ class MyFirstGUI:
                     file.write(str(value-180))
                     file.write(',')
                     file.write('\n')
-                canvas.delete("linez")
-                canvas.create_arc(200, 20, 270, 90, start=value-100, extent=20, fill="red", tag="linez")
+                #canvas.delete("linez")
+                #canvas.create_arc(200, 20, 270, 90, start=value-100, extent=20, fill="red", tag="linez")
+                canvas.delete("linez_1")
+                canvas.delete("linez_2")  
+                canvas.create_arc(202, 22, 268, 88, start=0-180, extent=(0-value)+180, fill="red", tag="linez_1")
+                canvas.create_arc(202, 22, 268, 88, start=0, extent=(0-value)+180, fill="red", tag="linez_2")
                 self.ZNumbDisplay.config(text = (value-180))
                 value = 0
         ser.close() # close port
@@ -190,8 +203,10 @@ class MyFirstGUI:
                     value = value + (int(x))
             if (sign==True):
                 value = 0 - value
-            canvas.delete("linex")
-            canvas.create_arc(20, 20, 90, 90, start=value+80, extent=20, fill="red", tag="linex")
+            canvas.delete("linex_1")
+            canvas.delete("linex_2")  
+            canvas.create_arc(22, 22, 88, 88, start=180, extent=value, fill="red", tag="linex_1")
+            canvas.create_arc(22, 22, 88, 88, start=0, extent=value, fill="red", tag="linex_2")
             self.XNumbDisplay.config(text = (value))
             value = 0
             sign=False
@@ -208,8 +223,12 @@ class MyFirstGUI:
                     value = value + (int(x))
             if (sign==True):
                 value = 0 - value
-            canvas.delete("liney")
-            canvas.create_arc(110, 20, 180, 90, start=value+80, extent=20, fill="red", tag="liney")
+            #canvas.delete("liney")
+            #canvas.create_arc(110, 20, 180, 90, start=value+80, extent=20, fill="red", tag="liney")
+            canvas.delete("liney_1")
+            canvas.delete("liney_2")  
+            canvas.create_arc(112, 22, 178, 88, start=180, extent=value, fill="red", tag="liney_1")
+            canvas.create_arc(112, 22, 178, 88, start=0, extent=value, fill="red", tag="liney_2")
             self.YNumbDisplay.config(text = (value))
             value = 0
             sign=False
@@ -228,8 +247,12 @@ class MyFirstGUI:
                     value = value + (int(x))
             if (sign==True):
                 value = 0 - value
-            canvas.delete("linez")
-            canvas.create_arc(200, 20, 270, 90, start=value+80, extent=20, fill="red", tag="linez")
+            #canvas.delete("linez")
+            #canvas.create_arc(200, 20, 270, 90, start=value+80, extent=20, fill="red", tag="linez")
+            canvas.delete("linez_1")
+            canvas.delete("linez_2")  
+            canvas.create_arc(202, 22, 268, 88, start=180, extent=value, fill="red", tag="linez_1")
+            canvas.create_arc(202, 22, 268, 88, start=0, extent=value, fill="red", tag="linez_2")
             self.ZNumbDisplay.config(text = (value))
             value = 0
             sign=False
