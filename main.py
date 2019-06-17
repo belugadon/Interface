@@ -35,8 +35,10 @@ class MyFirstGUI:
         self.Xlabel = Label(master, text="Y Axis:")
         self.Xlabel.place(x=125, y=145, width=35, height=20)
         self.Xlabel = Label(master, text="Z Axis:")
-        self.Xlabel.place(x=220, y=145, width=35, height=20)
-
+        self.Xlabel.place(x=215, y=145, width=35, height=20)
+        self.Xlabel = Label(master, text="Throttle:")
+        self.Xlabel.place(x=285, y=145, width=50, height=20)
+        
         self.w = Canvas(master, width=350, height=350)
         self.w.create_rectangle(20, 20, 90, 90, fill="blue")
         self.w.create_oval(20, 20, 90, 90, fill="green")
@@ -50,11 +52,13 @@ class MyFirstGUI:
         self.w.create_line(235, 20, 235, 90, fill="black")
         self.w.create_line(55, 20, 55, 90, fill="black")
         self.w.create_line(145, 20, 145, 90, fill="black")
-        self.w.create_line(10, 10, 280, 10, fill="red")
-        self.w.create_line(280, 10, 280, 100, fill="red")
-        self.w.create_line(280, 10, 280, 116, fill="red")
-        self.w.create_line(280, 116, 10, 116, fill="red")
-        self.w.create_line(10, 11, 10, 10, fill="red")
+        self.w.create_line(10, 10, 340, 10, fill="red")
+        self.w.create_line(340, 10, 340, 100, fill="red")
+        self.w.create_line(340, 10, 340, 116, fill="red")
+        self.w.create_line(340, 116, 10, 116, fill="red")
+        self.w.create_line(10, 116, 10, 10, fill="red")
+
+        self.w.create_rectangle(290, 20, 330, 90, fill="green")
 
         self.w.place(x=0, y=160, width=350, height=350)
 
@@ -64,6 +68,8 @@ class MyFirstGUI:
         self.YNumbDisplay.place(x=135, y=255)
         self.ZNumbDisplay = Label(master)
         self.ZNumbDisplay.place(x=225, y=255)
+        self.TNumbDisplay = Label(master)
+        self.TNumbDisplay.place(x=300, y=255)
         
         self.start_button = Button(master, text="Stream", command=lambda: self.start_background_task1(self.w))
         self.start_button.place(x=0, y=96, width=80, height=20)
@@ -102,7 +108,7 @@ class MyFirstGUI:
         i=0
         filename = self.fileref.get()
         if(filename != ''):
-            file = open((str(filename) + ".csv"), 'a+')
+            file = open( (str(filename) + ".csv"), 'a+')
             file.write("Angular Position \n x:, y:, z:\n")
         portno = self.entry.get()
         try:
@@ -159,7 +165,6 @@ class MyFirstGUI:
                 if(filename != ''):
                     file.write(str(value-180))
                     file.write(',')
-                    file.write('\n')
                 #canvas.delete("linez")
                 #canvas.create_arc(200, 20, 270, 90, start=value-100, extent=20, fill="red", tag="linez")
                 canvas.delete("linez_1")
@@ -167,6 +172,20 @@ class MyFirstGUI:
                 canvas.create_arc(202, 22, 268, 88, start=0-180, extent=(0-value)+180, fill="red", tag="linez_1")
                 canvas.create_arc(202, 22, 268, 88, start=0, extent=(0-value)+180, fill="red", tag="linez_2")
                 self.ZNumbDisplay.config(text = (value-180))
+                value = 0
+            elif x=='t':
+                while x != '-':
+                    x = ser.read()
+                    if(x != '-'):
+                        value <<= 8
+                        value = value + ord(x)
+                if(filename != ''):
+                    file.write(str(value))
+                    file.write(',')
+                    file.write('\n')
+                canvas.delete("linet")  
+                canvas.create_rectangle(290, (20 + (70 - (value/100))), 330, 90, fill="red", tag="linet")
+                self.TNumbDisplay.config(text = (value))
                 value = 0
         ser.close() # close port
         if(filename != ''):
@@ -258,6 +277,26 @@ class MyFirstGUI:
             sign=False
             if(x==','):
                 x = '0'
+            while x != ',':
+                x = file.read(1)
+                if x == '':
+                    break
+                if (x == '\n'):
+                    break
+                if (x == '-'):
+                    sign=True
+                if ((x != ',') & ((x != '-') & (x != '\n'))):
+                    value = value*10
+                    value = value + (int(x))
+            if (sign==True):
+                value = 0 - value
+            canvas.delete("linet")  
+            canvas.create_rectangle(290, (20 + (70 - (value/100))), 330, 90, fill="red", tag="linet")
+            self.TNumbDisplay.config(text = (value))
+            value = 0
+            sign=False
+            if(x==','):
+                x = '0'
         if(filename != '') & (logging==True):
             file.closed
         print("finished playback")
@@ -268,7 +307,7 @@ class MyFirstGUI:
         logging=False
 
 root = Tk()
-root.geometry("300x290+30+30") 
+root.geometry("350x290+30+30") 
 my_gui = MyFirstGUI(root)
 root.mainloop()
 
